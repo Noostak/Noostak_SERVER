@@ -30,11 +30,11 @@ public class AppointmentMember extends BaseTimeEntity {
     private Long appointmentMemberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "appointment_id", nullable = false)
+    @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @Enumerated(EnumType.STRING)
@@ -46,4 +46,16 @@ public class AppointmentMember extends BaseTimeEntity {
 
     private boolean liked;
 
+    private AppointmentMember(final Appointment appointment, final Member member, final AppointmentAvailability appointmentAvailability, final LocalDateTime memberStartTime, final LocalDateTime memberEndTime) {
+        this.appointment = appointment;
+        this.member = member;
+        this.appointmentAvailability = appointmentAvailability;
+        this.memberStartTime = memberStartTime;
+        this.memberEndTime = memberEndTime;
+        this.liked = false;
+    }
+
+    public static AppointmentMember of(final Appointment appointment, final Member member, final AppointmentAvailability appointmentAvailability, final LocalDateTime memberStartTime, final LocalDateTime memberEndTime) {
+        return new AppointmentMember(appointment, member, appointmentAvailability, memberStartTime, memberEndTime);
+    }
 }
